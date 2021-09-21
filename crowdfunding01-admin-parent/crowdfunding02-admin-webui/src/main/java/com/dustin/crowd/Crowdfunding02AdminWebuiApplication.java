@@ -1,9 +1,15 @@
 package com.dustin.crowd;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
+import org.springframework.context.annotation.ImportResource;
 
+//@EnableAutoConfiguration(exclude = {WebMvcAutoConfiguration.class })
+//@ImportResource(locations = { "classpath:spring-persist-tx.xml", "classpath:spring-web-mvc.xml" })
 @SpringBootApplication
+@ImportResource("classpath:spring-persist-tx.xml")
 public class Crowdfunding02AdminWebuiApplication {
 
 	public static void main(String[] args) {

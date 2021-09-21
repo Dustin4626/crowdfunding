@@ -10,13 +10,13 @@
 	<artifactId>crowdfunding03-admin-component</artifactId>
 	<dependencies>
 		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.dustin.crowd</groupId>
 			<artifactId>crowdfunding04-admin-entity</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.dustin.crowd</groupId>
