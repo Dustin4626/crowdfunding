@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dustin.crowd.constant.CrowdConstant;
 import com.dustin.crowd.exception.AccessForbiddenException;
+import com.dustin.crowd.exception.LoginAcctAlreadyInUseException;
 import com.dustin.crowd.exception.LoginFailedException;
 import com.dustin.crowd.util.CrowdUtil;
 import com.dustin.crowd.util.ResultEntity;
@@ -28,6 +29,18 @@ public class CrowdExceptionResolver {
 			) throws IOException {
 	
 		String viewName = "admin-login";
+	
+		return commonResolve(viewName, exception, request, response);
+	}
+	
+	@ExceptionHandler(value = LoginAcctAlreadyInUseException.class)
+	public ModelAndView resolveLoginAcctAlreadyInUseException(
+			LoginAcctAlreadyInUseException exception,
+				HttpServletRequest request,
+				HttpServletResponse response
+			) throws IOException {
+	
+		String viewName = "admin-add";
 	
 		return commonResolve(viewName, exception, request, response);
 	}

@@ -19,6 +19,7 @@ public class AppConfig implements WebMvcConfigurer {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/admin/to/login/page.html").setViewName("admin-login");
 		registry.addViewController("/admin/to/main/page.html").setViewName("admin-main");
+		registry.addViewController("/admin/to/add/page.html").setViewName("admin-add");
 		registry.addViewController("/").setViewName("admin-main");
 //		<mvc:view-controller path="/admin/to/login/page.html" view-name="admin-login"/>
 //		<mvc:view-controller path="/admin/to/main/page.html" view-name="admin-main"/>
