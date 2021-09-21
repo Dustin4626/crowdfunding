@@ -20,4 +20,6 @@ public interface AdminService {
 
 	void update(Admin admin);
 
+	void remove(Long adminId);
+
 }

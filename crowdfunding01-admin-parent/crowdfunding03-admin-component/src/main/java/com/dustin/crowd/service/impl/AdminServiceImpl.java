@@ -135,4 +135,10 @@ public class AdminServiceImpl implements AdminService {
 		
 	}
 
+	@Override
+	public void remove(Long adminId) {
+		adminRepository.deleteById(adminId);
+		
+	}
+
 }

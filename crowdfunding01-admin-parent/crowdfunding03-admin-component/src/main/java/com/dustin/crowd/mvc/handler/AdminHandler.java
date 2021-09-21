@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -110,7 +111,7 @@ public class AdminHandler {
 
 		adminService.saveAdmin(admin);
 
-		return "redirect:/admin/get/page.html?pageNum=" + Integer.MAX_VALUE;
+		return "redirect:/admin/get/page.html";
 	}
 
 	@RequestMapping("/admin/to/edit/page.html")
@@ -127,7 +128,28 @@ public class AdminHandler {
 		adminService.update(admin);
 		
 		return "redirect:/admin/get/page.html?pageNum="+pageNum+"&keyword="+keyword;
-	}
+	} 
 	
-
+	@RequestMapping("/admin/remove/{adminId}/{pageNum}/{keyword}.html")
+	public String remove(
+				@PathVariable("adminId") Long adminId,
+				@PathVariable("pageNum") Integer pageNum,
+				@PathVariable("keyword") String keyword
+			) {
+		
+		// 执行删除
+		adminService.remove(adminId);
+		
+		// 页面跳转：回到分页页面
+		
+		// 尝试方案1：直接转发到admin-page.jsp会无法显示分页数据
+//		 return "admin-page";
+		
+		// 尝试方案2：转发到/admin/get/page.html地址，一旦刷新页面会重复执行删除浪费性能
+//		 return "forward:/admin/get/page.html";
+		
+		// 尝试方案3：重定向到/admin/get/page.html地址
+		// 同时为了保持原本所在的页面和查询关键词再附加pageNum和keyword两个请求参数
+		return "redirect:/admin/get/page.html?pageNum="+pageNum+"&keyword="+keyword;
+	}
 }
