@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.dustin.crowd.constant.CrowdConstant;
 import com.dustin.crowd.entity.Admin;
 import com.dustin.crowd.exception.LoginAcctAlreadyInUseException;
+import com.dustin.crowd.exception.LoginAcctAlreadyInUseForUpdateException;
 import com.dustin.crowd.exception.LoginFailedException;
 import com.dustin.crowd.repository.AdminRepository;
 import com.dustin.crowd.service.api.AdminService;
@@ -104,6 +106,33 @@ public class AdminServiceImpl implements AdminService {
 		Page<Admin> list = adminRepository.findByUserNameLike(keyword, pageable);
 
 		return list;
+	}
+
+	@Override
+	public Admin getAdminById(Long adminId) {
+		return adminRepository.getById(adminId);
+	}
+
+	@Override
+	public void update(Admin admin) {
+		Optional<Admin> findById = adminRepository.findById(admin.getId());
+		Admin byId = findById.get();
+		try {
+			byId.setLoginAcct(admin.getLoginAcct());
+			byId.setUserName(admin.getUserName());
+			byId.setEmail(admin.getEmail());
+//			BeanUtils.copyProperties(admin, byId);
+			adminRepository.saveAndFlush(byId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+//			logger.info("异常全类名="+e.getClass().getName());
+			
+			if(e instanceof DataIntegrityViolationException) {
+				throw new LoginAcctAlreadyInUseForUpdateException(CrowdConstant.MESSAGE_LOGIN_ACCT_ALREADY_IN_USE);
+			}
+		}
+		
 	}
 
 }
