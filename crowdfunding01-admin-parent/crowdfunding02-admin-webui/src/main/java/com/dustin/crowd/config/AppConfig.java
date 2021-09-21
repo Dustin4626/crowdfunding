@@ -34,10 +34,9 @@ public class AppConfig implements WebMvcConfigurer {
 				.excludePathPatterns("/bootstrap/**","/css/**","/fonts/**","/img/**","/jquery/**")
 				.excludePathPatterns("/layer/**","/script/**","/ztree/**");
 	}
-//
+	
 //	@Override
 //	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 ////		 registry.addResourceHandler("/resource/**").addResourceLocations("/static/");;
 //	}
-//
 }
