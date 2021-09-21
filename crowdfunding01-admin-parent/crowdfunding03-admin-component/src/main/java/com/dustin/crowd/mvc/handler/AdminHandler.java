@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dustin.crowd.constant.CrowdConstant;
 import com.dustin.crowd.entity.Admin;
@@ -25,10 +26,10 @@ public class AdminHandler {
 				
 				// 使用@RequestParam注解的defaultValue属性，指定默认值，在请求中没有携带对应参数时使用默认值
 				// keyword默认值使用空字符串，和SQL语句配合实现两种情况适配
-				@RequestParam(value="keyword", defaultValue="") String keyword,
+				@RequestParam(value="keyword", defaultValue="%%") String keyword,
 				
 				// pageNum默认值使用1
-				@RequestParam(value="pageNum", defaultValue="1") Integer pageNum,
+				@RequestParam(value="pageNum", defaultValue="0") Integer pageNum,
 				
 				// pageSize默认值使用5
 				@RequestParam(value="pageSize", defaultValue="5") Integer pageSize,
@@ -39,7 +40,6 @@ public class AdminHandler {
 		
 		// 调用Service方法获取PageInfo对象
 		Page<Admin> pageInfo = adminService.getPageInfo(keyword, pageNum, pageSize);
-//		Page<Admin> pageInfo = null;
 		
 		// 将PageInfo对象存入模型
 		modelMap.addAttribute(CrowdConstant.ATTR_NAME_PAGE_INFO, pageInfo);
@@ -71,6 +71,49 @@ public class AdminHandler {
 		session.setAttribute(CrowdConstant.ATTR_NAME_LOGIN_ADMIN, admin);
 		
 		return "redirect:/admin/to/main/page.html";
+	}
+	
+	/**
+	 * 測試用
+	 * @param keyword
+	 * @param pageNum
+	 * @param pageSize
+	 * @param modelMap
+	 * @return
+	 */
+	@RequestMapping("/admin/get/pageTest.html")
+	@ResponseBody
+	public Page<Admin> getPageInfoTest(
+				
+				// 使用@RequestParam注解的defaultValue属性，指定默认值，在请求中没有携带对应参数时使用默认值
+				// keyword默认值使用空字符串，和SQL语句配合实现两种情况适配
+				@RequestParam(value="keyword", defaultValue="%%") String keyword,
+				
+				// pageNum默认值使用1
+				@RequestParam(value="pageNum", defaultValue="0") Integer pageNum,
+				
+				// pageSize默认值使用5
+				@RequestParam(value="pageSize", defaultValue="5") Integer pageSize,
+				
+				ModelMap modelMap
+			
+			) {
+		
+		// 调用Service方法获取PageInfo对象
+		Page<Admin> pageInfo = adminService.getPageInfo(keyword, pageNum, pageSize);
+		
+		// 将PageInfo对象存入模型
+		modelMap.addAttribute(CrowdConstant.ATTR_NAME_PAGE_INFO, pageInfo);
+		
+		return pageInfo;
+	}
+	
+	@RequestMapping("/admin/save.html")
+	public String save(Admin admin) {
+		
+		adminService.saveAdmin(admin);
+		
+		return "redirect:/admin/get/page.html?pageNum="+Integer.MAX_VALUE;
 	}
 
 }
