@@ -2,7 +2,6 @@ spring:
   jpa:
     show-sql: true    hibernate:      ddl-auto: none#    open-in-view: false
   datasource:    url: jdbc:mysql://localhost:3306/project_crowd?useSSL=false&serverTimezone=Asia/Taipei&allowPublicKeyRetrieval=true    username: root    password: 214626  mvc:    view:      prefix: /WEB-INF/      suffix: .jsp#  cache:#    jcache:#      config: classpath:ehcache.xml    hiddenmethod:      filter:        enabled: true#    static-path-pattern: /resource/**
-
  
       
       
