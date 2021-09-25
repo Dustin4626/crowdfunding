@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="t_role")
-//@NamedQuery(name="TRole.findAll", query="SELECT t FROM TRole t")
+@NamedQuery(name="Role.findAll", query="SELECT t FROM Role t")
 public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
 

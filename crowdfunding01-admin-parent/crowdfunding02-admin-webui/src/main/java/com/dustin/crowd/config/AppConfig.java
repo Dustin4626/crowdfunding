@@ -21,10 +21,12 @@ public class AppConfig implements WebMvcConfigurer {
 		registry.addViewController("/admin/to/main/page.html").setViewName("admin-main");
 		registry.addViewController("/admin/to/add/page.html").setViewName("admin-add");
 		registry.addViewController("/role/to/page.html").setViewName("role-page");
+		registry.addViewController("/menu/to/page.html").setViewName("menu-page");
 		registry.addViewController("/").setViewName("admin-main");
 //		<mvc:view-controller path="/admin/to/login/page.html" view-name="admin-login"/>
 //		<mvc:view-controller path="/admin/to/main/page.html" view-name="admin-main"/>
 //		<mvc:view-controller path="/role/to/page.html" view-name="role-page"/>
+//		<mvc:view-controller path="/menu/to/page.html" view-name="menu-page"/>
 	}
 //
 //
@@ -34,8 +36,10 @@ public class AppConfig implements WebMvcConfigurer {
 				.excludePathPatterns("/admin/to/login/page.html")
 				.excludePathPatterns("/admin/do/login.html")
 				.excludePathPatterns("/admin/do/logout.html")
-				.excludePathPatterns("/bootstrap/**","/css/**","/fonts/**","/img/**","/jquery/**")
-				.excludePathPatterns("/layer/**","/script/**","/ztree/**");
+				.excludePathPatterns("/bootstrap/**","/css/**","/jquery/**");
+						
+//				.excludePathPatterns("/bootstrap/**","/css/**","/fonts/**","/img/**","/jquery/**")
+//				.excludePathPatterns("/layer/**","/script/**","/ztree/**");
 	}
 	
 //	@Override
