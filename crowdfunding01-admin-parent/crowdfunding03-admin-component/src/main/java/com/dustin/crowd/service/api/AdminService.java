@@ -22,4 +22,6 @@ public interface AdminService {
 
 	void remove(Long adminId);
 
+	void saveAdminRoleRelationship(Integer adminId, List<Long> roleIdList);
+
 }

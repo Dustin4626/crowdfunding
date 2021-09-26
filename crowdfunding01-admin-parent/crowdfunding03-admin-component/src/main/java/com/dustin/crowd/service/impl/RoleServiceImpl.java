@@ -15,7 +15,7 @@ import com.dustin.crowd.service.api.RoleService;
 public class RoleServiceImpl implements RoleService {
 	
 	@Autowired
-	private RoleRepository roleMapper;
+	private RoleRepository roleRepository;
 
 	@Override
 	public Page<Role> getPageInfo(Integer pageNum, Integer pageSize, String keyword) {
@@ -24,7 +24,7 @@ public class RoleServiceImpl implements RoleService {
 		PageRequest pageable = PageRequest.of(pageNum, pageSize);
 		
 		// 2.执行查询
-		Page<Role> roleList = roleMapper.findByNameLike(keyword+"%",pageable);
+		Page<Role> roleList = roleRepository.findByNameLike(keyword+"%",pageable);
 		
 		// 3.封装为PageInfo对象返回
 		return roleList;
@@ -32,17 +32,27 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public void saveRole(Role role) {
-		roleMapper.save(role);
+		roleRepository.save(role);
 	}
 
 	@Override
 	public void updateRole(Role role) {
-		roleMapper.save(role);
+		roleRepository.save(role);
 	}
 
 	@Override
 	public void removeRole(List<Long> roleIdList) {
-		roleMapper.deleteAllById(roleIdList);
+		roleRepository.deleteAllById(roleIdList);
+	}
+
+	@Override
+	public List<Role> getAssignedRole(Integer adminId) {
+		return roleRepository.getAssignedRole(adminId);
+	}
+
+	@Override
+	public List<Role> getUnAssignedRole(Integer adminId) {
+		return roleRepository.getUnAssignedRole(adminId);
 	}
 
 }
