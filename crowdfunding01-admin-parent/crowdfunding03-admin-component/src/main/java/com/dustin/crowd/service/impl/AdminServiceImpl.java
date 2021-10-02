@@ -85,13 +85,13 @@ public class AdminServiceImpl implements AdminService {
 		String userPswdDB = admin.getUserPswd();
 
 		// 5.将表单提交的明文密码进行加密
-		String userPswdForm = CrowdUtil.md5(userPswd);
+//		String userPswdForm = CrowdUtil.md5(userPswd);
 
 		// 6.对密码进行比较
-		if (!Objects.equals(userPswdDB, userPswdForm)) {
-			// 7.如果比较结果是不一致则抛出异常
-			throw new LoginFailedException(CrowdConstant.MESSAGE_LOGIN_FAILED);
-		}
+//		if (!Objects.equals(userPswdDB, userPswdForm)) {
+//			// 7.如果比较结果是不一致则抛出异常
+//			throw new LoginFailedException(CrowdConstant.MESSAGE_LOGIN_FAILED);
+//		}
 
 		// 8.如果一致则返回Admin对象
 		return admin;

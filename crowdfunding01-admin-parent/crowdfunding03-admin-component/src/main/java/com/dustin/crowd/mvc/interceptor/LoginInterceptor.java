@@ -11,7 +11,7 @@ import com.dustin.crowd.constant.CrowdConstant;
 import com.dustin.crowd.entity.Admin;
 import com.dustin.crowd.exception.AccessForbiddenException;
 
-@Component
+//@Component
 public class LoginInterceptor implements HandlerInterceptor {
 
 	@Override

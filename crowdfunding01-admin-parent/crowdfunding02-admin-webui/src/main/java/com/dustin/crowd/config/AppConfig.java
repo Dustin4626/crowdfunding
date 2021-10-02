@@ -12,8 +12,8 @@ import com.dustin.crowd.mvc.interceptor.LoginInterceptor;
 @Configuration
 public class AppConfig implements WebMvcConfigurer {
 //
-	@Autowired
-	LoginInterceptor loginInterceptor;
+//	@Autowired
+//	LoginInterceptor loginInterceptor;
 //
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
@@ -30,17 +30,17 @@ public class AppConfig implements WebMvcConfigurer {
 	}
 //
 //
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(loginInterceptor).addPathPatterns("/**")
-				.excludePathPatterns("/admin/to/login/page.html")
-				.excludePathPatterns("/admin/do/login.html")
-				.excludePathPatterns("/admin/do/logout.html")
-				.excludePathPatterns("/bootstrap/**","/css/**","/jquery/**");
-						
-//				.excludePathPatterns("/bootstrap/**","/css/**","/fonts/**","/img/**","/jquery/**")
-//				.excludePathPatterns("/layer/**","/script/**","/ztree/**");
-	}
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registry) {
+//		registry.addInterceptor(loginInterceptor).addPathPatterns("/**")
+//				.excludePathPatterns("/admin/to/login/page.html")
+//				.excludePathPatterns("/admin/do/login.html")
+//				.excludePathPatterns("/admin/do/logout.html")
+//				.excludePathPatterns("/bootstrap/**","/css/**","/jquery/**");
+//						
+////				.excludePathPatterns("/bootstrap/**","/css/**","/fonts/**","/img/**","/jquery/**")
+////				.excludePathPatterns("/layer/**","/script/**","/ztree/**");
+//	}
 	
 //	@Override
 //	public void addResourceHandlers(ResourceHandlerRegistry registry) {
