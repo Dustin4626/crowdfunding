@@ -24,4 +24,6 @@ public interface AdminService {
 
 	void saveAdminRoleRelationship(Integer adminId, List<Long> roleIdList);
 
+	Admin getAdminByLoginAcct(String username);
+
 }

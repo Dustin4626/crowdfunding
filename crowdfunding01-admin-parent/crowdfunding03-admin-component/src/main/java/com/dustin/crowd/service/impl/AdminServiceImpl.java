@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dustin.crowd.constant.CrowdConstant;
@@ -26,6 +27,9 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private AdminRepository adminRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
 	public void saveAdmin(Admin admin) {
@@ -34,12 +38,13 @@ public class AdminServiceImpl implements AdminService {
 		Date date = new Date();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createTime = format.format(date);
-		
+
 		admin.setCreateTime(createTime);
-		
+
 		// 针对登录密码进行加密
 		String source = admin.getUserPswd();
-		String encoded = CrowdUtil.md5(source);
+//		String encoded = CrowdUtil.md5(source);
+		String encoded = bCryptPasswordEncoder.encode(source);
 		admin.setUserPswd(encoded);
 		// 执行保存，如果账户被占用会抛出异常
 		try {
@@ -125,48 +130,60 @@ public class AdminServiceImpl implements AdminService {
 			adminRepository.saveAndFlush(byId);
 		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 //			logger.info("异常全类名="+e.getClass().getName());
-			
-			if(e instanceof DataIntegrityViolationException) {
+
+			if (e instanceof DataIntegrityViolationException) {
 				throw new LoginAcctAlreadyInUseForUpdateException(CrowdConstant.MESSAGE_LOGIN_ACCT_ALREADY_IN_USE);
 			}
 		}
-		
+
 	}
 
 	@Override
 	public void remove(Long adminId) {
 		adminRepository.deleteById(adminId);
-		
+
 	}
 
 	@Override
 	public void saveAdminRoleRelationship(Integer adminId, List<Long> roleIdList) {
-		
+
 		// 旧数据如下：
-		// adminId	roleId
-		// 1		1（要删除）
-		// 1		2（要删除）
-		// 1		3
-		// 1		4
-		// 1		5
+		// adminId roleId
+		// 1 1（要删除）
+		// 1 2（要删除）
+		// 1 3
+		// 1 4
+		// 1 5
 		// 新数据如下：
-		// adminId	roleId
-		// 1		3（本来就有）
-		// 1		4（本来就有）
-		// 1		5（本来就有）
-		// 1		6（新）
-		// 1		7（新）
+		// adminId roleId
+		// 1 3（本来就有）
+		// 1 4（本来就有）
+		// 1 5（本来就有）
+		// 1 6（新）
+		// 1 7（新）
 		// 为了简化操作：先根据adminId删除旧的数据，再根据roleIdList保存全部新的数据
-		
+
 		// 1.根据adminId删除旧的关联关系数据
 		adminRepository.deleteOldRelationship(adminId);
-		
+
 		// 2.根据roleIdList和adminId保存新的关联关系
-		if(roleIdList != null && roleIdList.size() > 0) {
-			for(Long roldeId :roleIdList)
+		if (roleIdList != null && roleIdList.size() > 0) {
+			for (Long roldeId : roleIdList)
 				adminRepository.insertNewRelationship(adminId, roldeId);
+		}
+	}
+
+	@Override
+	public Admin getAdminByLoginAcct(String username) {
+		List<Admin> adminByLoginAcct = adminRepository.getAdminByLoginAcct(username);
+		if (adminByLoginAcct.size() > 0) {
+			return adminByLoginAcct.get(0);
+		}
+		else {
+//			throw new LoginFailedException("");
+			return null;
 		}
 	}
 }

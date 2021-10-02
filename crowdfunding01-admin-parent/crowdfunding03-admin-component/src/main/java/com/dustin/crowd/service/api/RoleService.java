@@ -16,7 +16,7 @@ public interface RoleService {
 
 	void removeRole(List<Long> roleIdList);
 
-	List<Role> getAssignedRole(Integer adminId);
+	List<Role> getAssignedRole(Long adminId);
 
-	List<Role> getUnAssignedRole(Integer adminId);
+	List<Role> getUnAssignedRole(Long adminId);
 }

@@ -25,5 +25,8 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
 	@Modifying
 	@Query(value = "insert into inner_admin_role(admin_id,role_id) values (?1,?2)", nativeQuery = true)
 	void insertNewRelationship(Integer adminId, Long roleIdList);
+	
+	@Query(value = "select * from t_admin where login_acct = :username", nativeQuery = true)
+	List<Admin> getAdminByLoginAcct(String username);
 
 }

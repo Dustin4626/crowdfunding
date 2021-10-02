@@ -17,10 +17,10 @@ public interface RoleRepository extends JpaRepository<Role, Long>{
 
 	@Query(value = "select id,name from t_role where id in (select role_id from inner_admin_role where admin_id=?1)"
 			,nativeQuery = true)
-	List<Role> getAssignedRole(Integer adminId);
+	List<Role> getAssignedRole(Long adminId);
 
 	@Query(value = "select id,name from t_role where id not in (select role_id from inner_admin_role where admin_id=?1)"
 			,nativeQuery = true)
-	List<Role> getUnAssignedRole(Integer adminId);
+	List<Role> getUnAssignedRole(Long adminId);
 
 }

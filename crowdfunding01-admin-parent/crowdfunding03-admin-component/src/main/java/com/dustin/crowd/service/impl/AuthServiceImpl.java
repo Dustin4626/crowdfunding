@@ -46,4 +46,9 @@ public class AuthServiceImpl implements AuthService {
 		}
 	}
 
+	@Override
+	public List<String> getAssignedAuthNameByAdmin(Long adminId) {
+		return authRepository.getAssignedAuthNameByAdmin(adminId);
+	}
+
 }

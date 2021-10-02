@@ -23,4 +23,12 @@ public interface AuthRepository extends JpaRepository<Auth, Integer> {
 	@Query(nativeQuery = true, value = "insert into inner_role_auth(role_id,auth_id) values(?1,?2)")
 	void insertNewRelationship(Integer roleId, Integer authId);
 
+	 @Query(value = "SELECT DISTINCT t_auth.name " + 
+		        "FROM t_auth " + 
+		        "LEFT JOIN inner_role_auth ON t_auth.id=inner_role_auth.auth_id " + 
+		        "LEFT JOIN inner_admin_role ON inner_admin_role.role_id=inner_role_auth.role_id " + 
+		        "WHERE inner_admin_role.admin_id=:adminId " + 
+		        "and t_auth.name != '' and t_auth.name is not null", nativeQuery = true)
+	List<String> getAssignedAuthNameByAdmin(Long adminId);
+
 }

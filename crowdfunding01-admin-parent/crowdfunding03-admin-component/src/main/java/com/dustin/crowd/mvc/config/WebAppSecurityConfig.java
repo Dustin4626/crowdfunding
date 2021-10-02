@@ -1,12 +1,14 @@
 package com.dustin.crowd.mvc.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 // 表示当前类是一个配置类
 @Configuration
@@ -15,14 +17,23 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @EnableWebSecurity
 public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder builder) throws Exception {
 		
 		// 临时使用内存版登录的模式测试代码
-		 builder.inMemoryAuthentication().withUser("tom").password("{noop}123123").roles("ADMIN");
+//		 builder.inMemoryAuthentication().withUser("tom").password("{noop}123123").roles("ADMIN");
 		
-		
+		// 正式功能中使用基于数据库的认证
+		builder.userDetailsService(userDetailsService)
+		.passwordEncoder(bCryptPasswordEncoder());
 	}
 	
 	@Override

@@ -46,12 +46,12 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public List<Role> getAssignedRole(Integer adminId) {
+	public List<Role> getAssignedRole(Long adminId) {
 		return roleRepository.getAssignedRole(adminId);
 	}
 
 	@Override
-	public List<Role> getUnAssignedRole(Integer adminId) {
+	public List<Role> getUnAssignedRole(Long adminId) {
 		return roleRepository.getUnAssignedRole(adminId);
 	}
 

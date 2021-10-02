@@ -31,7 +31,7 @@ public class AssignHandler {
 	private AuthService authService;
 
 	@RequestMapping("/assign/to/assign/role/page.html")
-	public String toAssignRolePage(@RequestParam("adminId") Integer adminId, ModelMap modelMap) {
+	public String toAssignRolePage(@RequestParam("adminId") Long adminId, ModelMap modelMap) {
 		// 1.查询已分配角色
 		List<Role> assignedRoleList = roleService.getAssignedRole(adminId);
 
