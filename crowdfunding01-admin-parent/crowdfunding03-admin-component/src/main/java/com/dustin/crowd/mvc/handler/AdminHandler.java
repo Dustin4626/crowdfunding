@@ -1,12 +1,18 @@
 package com.dustin.crowd.mvc.handler;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dustin.crowd.constant.CrowdConstant;
 import com.dustin.crowd.entity.Admin;
 import com.dustin.crowd.service.api.AdminService;
+import com.dustin.crowd.util.ResultEntity;
 
 @Controller
 public class AdminHandler {
@@ -106,6 +113,7 @@ public class AdminHandler {
 		return pageInfo;
 	}
 
+	@PreAuthorize("hasAuthority('user:save')")
 	@RequestMapping("/admin/save.html")
 	public String save(Admin admin) {
 
@@ -151,5 +159,24 @@ public class AdminHandler {
 		// 尝试方案3：重定向到/admin/get/page.html地址
 		// 同时为了保持原本所在的页面和查询关键词再附加pageNum和keyword两个请求参数
 		return "redirect:/admin/get/page.html?pageNum="+pageNum+"&keyword="+keyword;
+	}
+	
+	@ResponseBody
+	@PostAuthorize("returnObject.data.loginAcct == principal.username")
+	@RequestMapping("/admin/test/post/filter.json")
+	public ResultEntity<Admin> getAdminById() {
+		
+		Admin admin = new Admin();
+		
+		admin.setLoginAcct("adminOperator");
+		
+		return ResultEntity.successWithData(admin);
+	}
+	
+	@PreFilter(value="filterObject%2==0")
+	@ResponseBody
+	@RequestMapping("/admin/test/pre/filter")
+	public ResultEntity<List<Integer>> saveList(@RequestBody List<Integer> valueList) {
+		return ResultEntity.successWithData(valueList);
 	}
 }

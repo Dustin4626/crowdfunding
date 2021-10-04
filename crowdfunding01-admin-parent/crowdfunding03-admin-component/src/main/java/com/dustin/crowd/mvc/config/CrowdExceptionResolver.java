@@ -83,7 +83,7 @@ public class CrowdExceptionResolver {
 			
 			// 当前响应对象
 			HttpServletResponse response) throws IOException {
-		
+		response.setCharacterEncoding("UTF-8");
 		// 1.判断当前请求类型
 		boolean judgeResult = CrowdUtil.judgeRequestType(request);
 		
