@@ -75,4 +75,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<modules>
+		<module>crowdfunding08-member-eureka</module>
+	</modules>
 </project>
